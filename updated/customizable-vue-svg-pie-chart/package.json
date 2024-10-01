@@ -1,0 +1,63 @@
+{
+  "name": "customizable-vue-svg-pie-chart",
+  "version": "0.1.0",
+  "description": "A customizable pie chart component built with Vue.js, allowing for dynamic data visualization and flexible styling options.",
+  "private": true,
+  "keywords": [
+    "vue",
+    "pie-chart",
+    "customizable",
+    "chart",
+    "vue-component",
+    "data-visualization",
+    "svg"
+  ],
+  "author": "David Matt-Ojo",
+  "license": "MIT",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ojooh/customizable-vue-pie-chart.git"
+  },
+  "homepage": "https://github.com/Ojooh/customizable-vue-pie-chart#readme",
+  "bugs": {
+    "url": "https://github.com/Ojooh/customizable-vue-pie-chart/issues"
+  }
+}
