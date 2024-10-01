@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customizable Vue Pie Chart</title>
   <link rel="stylesheet" href="styles/pie-chart.css">
-  <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
   <div id="app">
@@ -46,38 +45,7 @@
     </div>
   </div>
 
-  <script type="module">
-    import { createApp } from 'vue';
-    import PieChart from './components/PieChart.vue';
-
-    const app = createApp({
-      data() {
-        return {
-          pieChartData: [
-            { label: "Segment 1", percentage: 40, link: "#" },
-            { label: "Segment 2", percentage: 30, link: "#" },
-            { label: "Segment 3", percentage: 20, link: "#" },
-            { label: "Segment 4", percentage: 10, link: "#" },
-          ],
-          segmentColors: ["#ff6384", "#36a2eb", "#cc65fe", "#ffce56"],
-          textSize: "4",
-          textColor: "#1F1D1D",
-          isLarge: false,
-          showSegmentList: true, // Optional segment list display
-        };
-      },
-      methods: {
-        onSegmentClick(segment) {
-          alert(`Clicked on segment: ${segment.label}`);
-        }
-      }
-    });
-
-    // Register the pie chart component globally
-    app.component('pie-chart', PieChart);
-
-    // Mount the Vue app
-    app.mount('#app');
-  </script>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
+vue create customizable-vue-svg-pie-chart

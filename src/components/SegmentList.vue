@@ -19,4 +19,4 @@ export default {
 };
 </script>
 
-<style scoped src="../styles/segment-list.css"></style>
+<style scoped src="../styles/segment_list.css"></style>
