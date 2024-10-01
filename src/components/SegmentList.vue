@@ -18,5 +18,23 @@ export default {
   },
 };
 </script>
-
-<style scoped src="../styles/segment_list.css"></style>
+  
+<style scoped>
+.segment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.segment-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+</style>
+  
