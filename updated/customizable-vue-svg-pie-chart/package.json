@@ -1,7 +1,7 @@
 {
   "name": "customizable-vue-svg-pie-chart",
   "version": "0.1.0",
-  "description": "A customizable pie chart component built with Vue.js, allowing for dynamic data visualization and flexible styling options.",
+  "description": "A customizable svg pie chart component built with Vue.js, allowing for dynamic data visualization and flexible styling options.",
   "private": true,
   "keywords": [
     "vue",
