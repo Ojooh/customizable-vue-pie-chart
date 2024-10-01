@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customizable Vue Pie Chart</title>
+  <link rel="stylesheet" href="styles/pie-chart.css">
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- Pie Chart component demo -->
+    <h1>Customizable Vue.js Pie Chart</h1>
+    
+    <pie-chart 
+      :data="pieChartData" 
+      :segmentColors="segmentColors" 
+      :textSize="textSize"
+      :textColor="textColor"
+      :onSegmentClick="onSegmentClick"
+      :large="isLarge"
+      :showLegendText="true"
+      legendText="Sales Distribution"
+      legendPosition="top"
+      :showSegmentList="showSegmentList"
+    ></pie-chart>
+
+    <!-- Controls for adjusting chart -->
+    <div class="controls">
+      <label>
+        Text Size: 
+        <input type="range" v-model="textSize" min="1" max="10">
+      </label>
+      <label>
+        Text Color: 
+        <input type="color" v-model="textColor">
+      </label>
+      <label>
+        Large Size: 
+        <input type="checkbox" v-model="isLarge">
+      </label>
+      <label>
+        Show Segment List:
+        <input type="checkbox" v-model="showSegmentList">
+      </label>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createApp } from 'vue';
+    import PieChart from './components/PieChart.vue';
+
+    const app = createApp({
+      data() {
+        return {
+          pieChartData: [
+            { label: "Segment 1", percentage: 40, link: "#" },
+            { label: "Segment 2", percentage: 30, link: "#" },
+            { label: "Segment 3", percentage: 20, link: "#" },
+            { label: "Segment 4", percentage: 10, link: "#" },
+          ],
+          segmentColors: ["#ff6384", "#36a2eb", "#cc65fe", "#ffce56"],
+          textSize: "4",
+          textColor: "#1F1D1D",
+          isLarge: false,
+          showSegmentList: true, // Optional segment list display
+        };
+      },
+      methods: {
+        onSegmentClick(segment) {
+          alert(`Clicked on segment: ${segment.label}`);
+        }
+      }
+    });
+
+    // Register the pie chart component globally
+    app.component('pie-chart', PieChart);
+
+    // Mount the Vue app
+    app.mount('#app');
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<template>
+  <div :class="['pie-chart-container', sizeClass, containerClass]">
+    <!-- Legend Text -->
+    <div v-if="showLegendText" :class="['legend', legendPosition]">
+      <p>{{ legendText }}</p>
+    </div>
+
+    <svg viewBox="0 0 32 32" class="pie-chart-svg">
+      <!-- Full Segment Case -->
+      <template v-if="hasFullSegment">
+        <circle
+          cx="16"
+          cy="16"
+          r="16"
+          :fill="fullSegment.color"
+          class="pie-chart-circle cursor-pointer"
+          @click="handleSegmentClick(fullSegment)"
+        />
+        <text
+          x="16"
+          y="16"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          :fill="textColor"
+          :font-size="textSize"
+          class="pie-chart-text"
+          v-if="showText"
+        >
+          {{ Math.round(fullSegment.percentage) }}%
+        </text>
+      </template>
+
+      <!-- Regular Pie Chart Case -->
+      <template v-else>
+        <!-- Pie chart slices -->
+        <path
+          v-for="(segment, index) in pieData"
+          :key="index"
+          :d="segment.pathData"
+          :fill="segment.color"
+          stroke="white"
+          stroke-width="strokeWidth"
+          @click="handleSegmentClick(segment)"
+          stroke-linecap="round"
+          :class="segment.link ? 'cursor-pointer' : ''"
+        />
+
+        <!-- Text labels for each segment -->
+        <text
+          v-for="(segment_text, text_index) in pieData"
+          :key="'text-' + text_index"
+          :x="segment_text.textX"
+          :y="segment_text.textY"
+          text-anchor="middle"
+          alignment-baseline="middle"
+          :fill="textColor"
+          :font-size="textSize"
+          @click="handleSegmentClick(segment_text)"
+          v-if="showText"
+          :class="{
+            'cursor-pointer': segment_text?.link
+          }"
+        >
+          {{ Math.round(segment_text.percentage) }}%
+        </text>
+      </template>
+
+    </svg>
+
+    <!-- Optional segment list component -->
+    <segment-list v-if="showSegmentList" :segments="data"></segment-list>
+  </div>
+</template>
+
+<script>
+import SegmentList from './SegmentList.vue';
+
+export default {
+  name: "PieChart",
+  props: {
+    data: { type: Array, required: true, default: () => [] },
+
+    segmentColors: { type: Array, default: () => ["#ff6384", "#36a2eb", "#cc65fe", "#ffce56"] },
+
+    showText: { type: Boolean, default: true },
+
+    textSize: { type: String, default: "4" },
+
+    textColor: { type: String, default: "#1F1D1D" },
+
+    onSegmentClick: { type: Function, default: null },
+
+    showLegendText: { type: Boolean, default: false },
+
+    legendText: { type: String, default: 'Pie Chart' },
+
+    legendPosition: { type: String, default: 'bottom' },
+
+    large: { type: Boolean, default: false },
+
+    showSegmentList: { type: Boolean, default: false },
+
+    containerClass: { type: String, default: null },
+
+    strokeWidth: { type: Number, default: 0.2 },
+
+  },
+  data() {
+    return { fullSegment: null };
+  },
+  computed: {
+    hasFullSegment() {
+      const segment = this.data.find((segment) => segment.percentage === 100);
+      this.fullSegment = segment;
+      return !!segment;
+    },
+
+    pieData() {
+      return this.generatePieData(this.data);
+    },
+
+    sizeClass() {
+      return this.large ? "pie-chart-large" : "pie-chart-small";
+    },
+
+  },
+  methods: {
+    handleSegmentClick(segment) {
+      if (this.onSegmentClick) {
+        this.onSegmentClick(segment);
+      } else if (segment.link) {
+        window.location.href = segment.link;
+      }
+    },
+
+    calculatePathData(startAngle, percentage) {
+      const radius = 16;
+      const endAngle = startAngle + percentage * 3.6;
+      const startRadians = (startAngle * Math.PI) / 180;
+      const endRadians = (endAngle * Math.PI) / 180;
+
+      const x1 = 16 + radius * Math.cos(startRadians);
+      const y1 = 16 + radius * Math.sin(startRadians);
+      const x2 = 16 + radius * Math.cos(endRadians);
+      const y2 = 16 + radius * Math.sin(endRadians);
+
+      const largeArcFlag = percentage > 50 ? 1 : 0;
+
+      return `M16,16 L${x1},${y1} A${radius},${radius} 0 ${largeArcFlag},1 ${x2},${y2} Z`;
+    },
+
+    generatePieData(pie_data) {
+      const totalPercentage = pie_data.reduce((acc, segment) => acc + segment.percentage, 0);
+      if (totalPercentage !== 100) {
+        console.error('The total percentage of pie chart segments must equal 100%.');
+        return [];
+      }
+
+      let cumulativeAngle = -90;
+
+      return pie_data.map((segment) => {
+        const segmentData = { ...segment };
+        const midAngle = cumulativeAngle + (segment.percentage / 2) * 3.6;
+        const radians = (midAngle * Math.PI) / 180;
+
+        segmentData.textX = 16 + 9 * Math.cos(radians);
+        segmentData.textY = 16 + 9 * Math.sin(radians);
+
+        if (segment.percentage > 0) {
+          segmentData.pathData = this.calculatePathData(cumulativeAngle, segment.percentage);
+        } else {
+          segmentData.pathData = "";
+        }
+
+        cumulativeAngle += segment.percentage * 3.6;
+
+        return segmentData;
+      });
+    },
+
+  },
+  components: { SegmentList },
+};
+</script>
+
+<style scoped src="../styles/pie-chart.css"></style>
